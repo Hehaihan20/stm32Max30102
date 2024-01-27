@@ -1,13 +1,31 @@
+
+/****************************************Copyright (c)****************************************************
+ 
+**--------------File Info---------------------------------------------------------------------------------
+** File name:    			MAX30102.h             
+** Last modified Date:           2024/1/26    
+** Last Version:           		 		1.0
+** Descriptions:           
+**                        
+**--------------------------------------------------------------------------------------------------------
+** Created by:               Hange
+** Created date:             2024/1/26
+** Version:                  1.0
+** Descriptions:          
+**--------------------------------------------------------------------------------------------------------*/
+
 #ifndef __MAX30102_H
 #define __MAX30102_H
- #include "stm32f10x.h"
+
+
+#include "stm32f10x.h"
 
 #include "I2C.h"
 
 /*R=((ir_max+ir_min)(red_max-red_min))/((red_max+red_min)(ir_max-ir_min));
 SpO2= ((-45.060)RR + 30.354*R + 94.845).*/
 //1=((-9)RR + 6*R
-
+//Heart_Rate = 60.00 * ((100.0 * s1_max_index )/ 512.00)+20;
 #define MAX30102_INPUT_PIN_RCC	  RCC_APB2Periph_GPIOC
 #define MAX30102_INPUT_GPIO				GPIOC
 #define MAX30102_INPUT_PIN      	GPIO_Pin_13
@@ -39,6 +57,9 @@ void MAX30102_Reset(void);
 void MAX30102_Init(void);
 void MAX30102_I2C_Write(u8 reg_addr,u8 dat);
 void MAX30102_I2C_Read(u8 reg_addr,u8 *dat,u8 num);
-void MAX30102_ReadFifo(uint16_t *p_red, uint16_t *p_ir);
-
+//void MAX30102_ReadFifo(uint16_t *p_red, uint16_t *p_ir);
+void MAX30102_ReadFifo(uint16_t *pdata);
+uint16_t MAX30102_GetMax(uint16_t* num,uint16_t size);
+uint16_t MAX30102_GetMin(uint16_t* num,uint16_t size);
+float MAX30102_GetR(uint16_t *red,uint16_t *ir,uint16_t size );
 #endif

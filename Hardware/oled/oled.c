@@ -113,6 +113,14 @@ void IIC_delay(void)
 //		dat<<=1;
 //  }
 //}
+void WriteCmd(unsigned char I2C_Command)//写命令
+{
+	I2C_WriteByte(OLED_ADDRESS,0x00,I2C_Command);
+}
+void WriteDat(unsigned char I2C_Data)//写数据
+{
+I2C_WriteByte(OLED_ADDRESS,0x40,I2C_Data);
+}
 //发送一个字节
 //mode:数据/命令标志 0,表示命令;1,表示数据;
 void OLED_WR_Byte(u8 dat,u8 mode)
@@ -474,7 +482,7 @@ void OLED_Init(void)
 //	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;//速度50MHz
 // 	GPIO_Init(GPIOB, &GPIO_InitStructure);	  //初始化PA0,1
 // 	GPIO_SetBits(GPIOB,GPIO_Pin_6|GPIO_Pin_7);
-		I2C_Configuration( );
+	//	I2C_Configuration( );
    delay_1ms( 200 );
 	
 	OLED_WR_Byte(0xAE,OLED_CMD);//--turn off oled panel

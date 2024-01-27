@@ -35,6 +35,6 @@
 .\objects\oled.o: ..\Drivers\I2C\I2C.h
 .\objects\oled.o: ..\User\stm32f10x_it.h
 .\objects\oled.o: D:\software\coder\ic\keil\keil-arm\core\ARM\ARMCC\Bin\..\include\stdio.h
+.\objects\oled.o: ..\User\Systick.h
 .\objects\oled.o: D:\software\coder\ic\keil\keil-arm\core\ARM\ARMCC\Bin\..\include\stdlib.h
 .\objects\oled.o: ..\Hardware\oled\oledfont.h
-.\objects\oled.o: ..\User\systick.h

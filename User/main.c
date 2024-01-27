@@ -45,36 +45,63 @@ void  Find_All_I2c_Salve(){
 }
 int main(void)
 {
-	u8 data[6];
-	u16 dataall[20];
-	u8 *p=data;
-	uint16_t p_red[1];
-	uint16_t p_ir[1];
+
+	u8 t=123;
+	uint16_t data[2];
+	uint16_t red_data[100];
+	uint16_t ir_data[100];
 	NVIC_PriorityGroupConfig(NVIC_PriorityGroup_2);	//设置NVIC中断分组2:2位抢占优先级，2位响应优先级
 	systick_config();
 	USART_GPIO_INIT();
 	USART_PARAM_CONFIG();
 
 	MAX30102_Init();
+	//I2C_Configuration( );
 	printf("start_init\r\n");
 	delay_1us(2);
 	
-
-//	MAX30102_ReadFifo(data);
+	OLED_Init();
+	
+	OLED_ColorTurn(0);//0正常显示，1 反色显示
+  OLED_DisplayTurn(0);//0正常显示 1 屏幕翻转显示
+	
 //	for(int i=0;i<sizeof(data);i++)
 //	{
 //		printf("data=%x\r\n",data[i]);
 //	}
+//	for(u8 i=0;i<128;i++)
+//	{
+//		MAX30102_ReadFifo(data);
+//		red_data[i]=data[0];
+//		ir_data [i]=data[1];
+//	}	
 
-	
+//	printf("p_red=%d\r\n",data[0]);
+//	printf("p_ir=%d\r\n",data[1]);
+//	u16 r=	MAX30102_GetR(red_data,ir_data,128);
+//	printf("r=%d\r\n",r);
+
 while(1){
+	for(u8 i=0;i<100;i++)
+	{	//printf("p_red=%d\r\n",data[0]);
+		MAX30102_ReadFifo(data);
+		red_data[i]=data[0];
+		ir_data [i]=data[1];
+	}	
 
-	MAX30102_ReadFifo(p_red,p_ir);
+	printf("p_red=%d\r\n",data[0]);
+	printf("p_ir=%d\r\n",data[1]);
+	u16 r=	MAX30102_GetR(red_data,ir_data,100);
+	printf("r=%d\r\n",r);
+
+	OLED_ShowNum(0,0,r,2,16,1);
+	OLED_Refresh();
+	delay_1ms(1000);
 
 //	printf("p_red=%d\r\n",p_red[0]);
 //	printf("p_ir=%d\r\n",p_ir[0]);
 	
-	delay_1ms(1000);
+
 	//printf("%d\r\n",GPIO_ReadInputDataBit(GPIOB,GPIO_Pin_13));
 }
 }

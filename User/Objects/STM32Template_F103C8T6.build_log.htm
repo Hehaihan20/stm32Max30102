@@ -22,7 +22,7 @@ Dialog DLL:      TCM.DLL V1.36.2.0
  
 <h2>Project:</h2>
 E:\CodeSpace\IC\stm32\04_Template_F103C8T6_i2c1_max30102\User\STM32Template_F103C8T6.uvprojx
-Project File Date:  01/21/2024
+Project File Date:  01/27/2024
 
 <h2>Output:</h2>
 *** Using Compiler 'V5.06 update 6 (build 750)', folder: 'D:\software\coder\ic\keil\keil-arm\core\ARM\ARMCC\Bin'
@@ -36,21 +36,16 @@ compiling Led.c...
 ..\Hardware\Led\Led.c(17): warning:  #1-D: last line of file ends without a newline
   }
 ..\Hardware\Led\Led.c: 3 warnings, 0 errors
-compiling system_stm32f10x.c...
-compiling stm32f10x_gpio.c...
 compiling misc.c...
-compiling Systick.c...
-Systick.c(93): warning:  #1-D: last line of file ends without a newline
-  }
-Systick.c: 1 warning, 0 errors
+compiling stm32f10x_it.c...
 compiling main.c...
 ..\Drivers\I2C\I2C.h(31): warning:  #1295-D: Deprecated declaration I2C_Configuration - give arg types
   void I2C_Configuration();
 ..\Drivers\I2C\I2C.h(35): warning:  #1-D: last line of file ends without a newline
   #endif 
-..\Hardware\MAX30102\MAX30102.h(44): warning:  #1-D: last line of file ends without a newline
+..\Hardware\MAX30102\MAX30102.h(65): warning:  #1-D: last line of file ends without a newline
   #endif
-..\Hardware\oled\oled.h(38): warning:  #1-D: last line of file ends without a newline
+..\Hardware\oled\oled.h(37): warning:  #1-D: last line of file ends without a newline
   #endif
 ..\Drivers\Usart\Usart1.h(10): warning:  #1295-D: Deprecated declaration USART_GPIO_INIT - give arg types
   void USART_GPIO_INIT();
@@ -58,23 +53,32 @@ compiling main.c...
   void USART_PARAM_CONFIG();
 ..\Drivers\Usart\Usart1.h(13): warning:  #1-D: last line of file ends without a newline
   #endif 
-main.c(49): warning:  #177-D: variable "dataall"  was declared but never referenced
-  	u16 dataall[20];
-main.c(50): warning:  #177-D: variable "p"  was declared but never referenced
-  	u8 *p=data;
-main.c: 9 warnings, 0 errors
-compiling stm32f10x_it.c...
-compiling stm32f10x_usart.c...
-compiling stm32f10x_i2c.c...
+main.c(49): warning:  #177-D: variable "t"  was declared but never referenced
+  	u8 t=123;
+main.c: 8 warnings, 0 errors
+compiling Systick.c...
+Systick.c(93): warning:  #1-D: last line of file ends without a newline
+  }
+Systick.c: 1 warning, 0 errors
+compiling system_stm32f10x.c...
 compiling stm32f10x_rcc.c...
+compiling stm32f10x_gpio.c...
+compiling stm32f10x_i2c.c...
+compiling stm32f10x_usart.c...
 compiling MAX30102.c...
 ..\Drivers\I2C\I2C.h(31): warning:  #1295-D: Deprecated declaration I2C_Configuration - give arg types
   void I2C_Configuration();
 ..\Drivers\I2C\I2C.h(35): warning:  #1-D: last line of file ends without a newline
   #endif 
-..\Hardware\MAX30102\MAX30102.h(44): warning:  #1-D: last line of file ends without a newline
+..\Hardware\MAX30102\MAX30102.h(65): warning:  #1-D: last line of file ends without a newline
   #endif
-..\Hardware\MAX30102\MAX30102.c: 3 warnings, 0 errors
+..\Hardware\MAX30102\MAX30102.c(203): warning:  #177-D: variable "un_temp"  was declared but never referenced
+  	uint16_t un_temp;
+..\Hardware\MAX30102\MAX30102.c(21): warning:  #550-D: variable "Max_index"  was set but never used
+  static u8 Max_index[2];
+..\Hardware\MAX30102\MAX30102.c(25): warning:  #177-D: variable "cont"  was declared but never referenced
+  static u8 cont;
+..\Hardware\MAX30102\MAX30102.c: 6 warnings, 0 errors
 compiling Usart1.c...
 ..\Drivers\Usart\Usart1.h(10): warning:  #1295-D: Deprecated declaration USART_GPIO_INIT - give arg types
   void USART_GPIO_INIT();
@@ -91,10 +95,18 @@ compiling I2C.c...
 ..\Drivers\I2C\I2C.c(41): warning:  #177-D: variable "addr"  was declared but never referenced
   	u8 addr=0;
 ..\Drivers\I2C\I2C.c: 3 warnings, 0 errors
+compiling oled.c...
+..\Drivers\I2C\I2C.h(31): warning:  #1295-D: Deprecated declaration I2C_Configuration - give arg types
+  void I2C_Configuration();
+..\Drivers\I2C\I2C.h(35): warning:  #1-D: last line of file ends without a newline
+  #endif 
+..\Hardware\oled\oled.h(37): warning:  #1-D: last line of file ends without a newline
+  #endif
+..\Hardware\oled\oled.c: 3 warnings, 0 errors
 linking...
-Program Size: Code=4048 RO-data=336 RW-data=48 ZI-data=1024  
+Program Size: Code=9152 RO-data=8032 RW-data=72 ZI-data=2176  
 FromELF: creating hex file...
-".\Objects\STM32Template_F103C8T6.axf" - 0 Error(s), 22 Warning(s).
+".\Objects\STM32Template_F103C8T6.axf" - 0 Error(s), 27 Warning(s).
 
 <h2>Software Packages used:</h2>
 
@@ -117,7 +129,7 @@ Package Vendor: Keil
 <h2>Collection of Component Files used:</h2>
 
    * Component: ARM::CMSIS:CORE:5.2.0
-Build Time Elapsed:  00:00:01
+Build Time Elapsed:  00:00:00
 </pre>
 </body>
 </html>

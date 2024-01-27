@@ -338,7 +338,7 @@
               <MiscControls></MiscControls>
               <Define>USE_STDPERIPH_DRIVER</Define>
               <Undefine></Undefine>
-              <IncludePath>..\User;..\Firmware\STM32F10x_StdPeriph_Driver\inc;..\Drivers\Usart;..\Hardware\Led;..\Hardware\oled;..\Drivers\I2C;..\Hardware\MAX30102</IncludePath>
+              <IncludePath>..\User;..\Firmware\STM32F10x_StdPeriph_Driver\inc;..\Drivers\Usart;..\Hardware\Led;..\Hardware\oled;..\Drivers\I2C;..\Hardware\MAX30102;..\Hardware\Algorithm;..\Hardware\Blood</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -471,6 +471,26 @@
               <FileName>MAX30102.h</FileName>
               <FileType>5</FileType>
               <FilePath>..\Hardware\MAX30102\MAX30102.h</FilePath>
+            </File>
+            <File>
+              <FileName>algorithm.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\Hardware\Algorithm\algorithm.h</FilePath>
+            </File>
+            <File>
+              <FileName>blood.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\Hardware\Blood\blood.h</FilePath>
+            </File>
+            <File>
+              <FileName>oled.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Hardware\oled\oled.c</FilePath>
+            </File>
+            <File>
+              <FileName>oled.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\Hardware\oled\oled.h</FilePath>
             </File>
           </Files>
         </Group>
