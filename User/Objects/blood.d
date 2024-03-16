@@ -40,3 +40,4 @@
 .\objects\blood.o: ..\Hardware\Algorithm\algorithm.h
 .\objects\blood.o: D:\software\coder\ic\keil\keil-arm\core\ARM\ARMCC\Bin\..\include\math.h
 .\objects\blood.o: ..\Drivers\Usart\Usart1.h
+.\objects\blood.o: ..\Hardware\oled\oled.h

@@ -13,30 +13,196 @@
 ** Version:                  1.0
 ** Descriptions:          
 **--------------------------------------------------------------------------------------------------------*/
+
  void I2C_Configuration(void)
  {
      GPIO_InitTypeDef GPIO_InitStructure;
-     I2C_InitTypeDef I2C_InitStructure;
 
-     RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOB, ENABLE);   //开启GPIOB时钟
-     RCC_APB1PeriphClockCmd(RCC_APB1Periph_I2C1, ENABLE);    //开启I2C1时钟
-
-     GPIO_InitStructure.GPIO_Mode  = GPIO_Mode_AF_OD;            //设置开漏复用模式
-     GPIO_InitStructure.GPIO_Pin   = GPIO_Pin_6 | GPIO_Pin_7;    //I2C1_SCL <--> PB6  I2C1_SDA <--> PB7
+	 
+     RCC_APB2PeriphClockCmd(I2C_RCC, ENABLE);   //开启GPIOB时钟
+     GPIO_InitStructure.GPIO_Mode  = GPIO_Mode_Out_OD;            //设置开漏复用模式
+     GPIO_InitStructure.GPIO_Pin   = I2C_SCL_GPIO | I2C_SDA_GPIO;    //I2C1_SCL <--> PB6  I2C1_SDA <--> PB7
      GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
-     GPIO_Init(GPIOB, &GPIO_InitStructure);
- 
-     I2C_DeInit(I2C1);           //将I2C1外设寄存器初始化为其默认重置值
- 
-     I2C_InitStructure.I2C_Ack                   = I2C_Ack_Enable;               //使能应答
-     I2C_InitStructure.I2C_AcknowledgedAddress   = I2C_AcknowledgedAddress_7bit; //设置寻址地址为7位地址模式
-     I2C_InitStructure.I2C_ClockSpeed            = 400000;                       //设置I2C速率为最大值400kHz
-     I2C_InitStructure.I2C_DutyCycle             = I2C_DutyCycle_2;              //设置低比高电平时间为2:1
-     I2C_InitStructure.I2C_Mode                  = I2C_Mode_I2C;                 //设置为I2C模式
-     I2C_InitStructure.I2C_OwnAddress1           = 0x00;                         //设置自身设备地址为0x30
-     I2C_Init(I2C1, &I2C_InitStructure);
-     I2C_Cmd(I2C1, ENABLE);                                                      //使能I2C1
+     GPIO_Init(I2C_GPIO, &GPIO_InitStructure);
+		 GPIO_WriteBit(I2C_GPIO,I2C_SCL_GPIO|I2C_SDA_GPIO,Bit_SET);
  }
+ 
+void I2C_Delay(void)
+{
+	uint8_t i=12;  //小于12有问题 stm32f103c8t6
+   while(i--);
+}
+ /*
+		Start:  SCL 高电平,SDA下降沿 
+		先拉低SDA再拉低SCL
+ */
+ 
+ void I2C_Start(void){
+	 /* 空闲状态 */
+		SDA_SET();
+		SCL_SET();
+		I2C_Delay();
+	 
+		SDA_CLR();
+		I2C_Delay();
+		SCL_CLR();
+		I2C_Delay();
+ }
+ /*
+	Stop: SCL高电平时候 ，SDA 上升 
+	先拉低SDA再拉高SCL
+ */
+ 
+void I2C_Stop(void){
+		SDA_CLR();	 
+		SCL_SET();
+		I2C_Delay();
+		SDA_SET();//释放sda控制权
+		I2C_Delay();
+ }
+/*
+ACK: SDA 高电平 no_ack 低电平 ack
+ */
+void I2C_ACK(uint8_t bit){
+	if(bit)//no_ack
+	{
+		SDA_SET();
+		I2C_Delay();
+		SCL_SET();
+		I2C_Delay();
+		SCL_CLR();
+		I2C_Delay();
+	}
+	else
+	{
+		SDA_CLR();
+		I2C_Delay();
+		SCL_SET();
+		I2C_Delay();
+		SCL_CLR();
+		I2C_Delay();
+		SDA_SET();//释放sda控制权
+	
+	}
+		
+ }
+
+uint8_t I2C_ACK_WAIT(){
+	uint8_t stat;
+	SDA_SET();//释放sda控制权
+	I2C_Delay();
+	SCL_SET(); //SCL = 1, 会返回ACK
+	if(SDA_READ)//no_ack
+	{
+		SCL_CLR();
+		return 1;
+	}
+	else
+	{
+		SCL_CLR();
+		return 0;
+	}
+		
+ }
+ 
+void 	IIC_Send_Byte(uint8_t data){
+	 uint8_t i;
+	for(i=0;i<8;i++)
+	 {
+			if((data<<i)&0x80) SDA_SET();
+			else				SDA_CLR();
+		  
+		 I2C_Delay();
+		 SCL_SET();//scl 高电读数据
+		 I2C_Delay();
+		 SCL_CLR();
+			I2C_Delay();
+		}	
+
+}
+static uint8_t data_read;
+
+uint8_t I2C_Read_Byte(void){
+	 uint8_t i;
+	 data_read=0;
+	for(i=0;i<8;i++)
+	 {
+		 data_read<<=1;
+		 SCL_SET();//scl 高电读数据
+		 I2C_Delay();
+	   data_read=(SDA_READ&1);  
+		 SCL_CLR();
+		 I2C_Delay();
+//		printf("SDA_READ=%d\r\n",SDA_READ);
+//		printf("data_read=%d\r\n",data_read);
+	 }	
+	 
+	return data_read;
+
+}
+
+ void I2C_WriteByte(uint8_t slave_addr,uint8_t addr,uint8_t data){
+	 
+	 I2C_Start();
+	 IIC_Send_Byte(slave_addr<<1);
+	 while(I2C_ACK_WAIT());
+	 IIC_Send_Byte(addr);
+	 while(I2C_ACK_WAIT());
+	 IIC_Send_Byte(data);
+	 while(I2C_ACK_WAIT());
+	 I2C_Stop();
+ }
+ 
+void I2C_ReadByte(uint8_t slave_addr,uint8_t addr,uint8_t *data,uint8_t numByte)
+{
+	 u8 re_slave_addr=((slave_addr<<1)|0x01);
+	 I2C_Start();
+	 IIC_Send_Byte(slave_addr<<1);
+	 while(I2C_ACK_WAIT());
+	 IIC_Send_Byte(addr);
+	 while(I2C_ACK_WAIT());
+	 
+	
+	
+	 I2C_Start();
+	 IIC_Send_Byte(re_slave_addr);
+	while(I2C_ACK_WAIT());
+	 while(numByte--){
+	 				
+		  *(data++)=I2C_Read_Byte();//读取数据=I2C_ReceiveData(I2C1);//读取数据
+					
+			if(numByte==0)
+		{
+				I2C_ACK(1);
+				I2C_Stop();
+	
+		}else {	I2C_ACK(0);}
+	
+		}
+			
+	 }
+
+u8 I2C_Search_slaveadr(u8 dat){
+	u8 addr=0;
+	u8 t=0;
+	
+	I2C_Start();
+	IIC_Send_Byte(dat<<1);
+	while(I2C_ACK_WAIT())
+	{
+		t++;
+		if(t>11)	//不能<11，stm32f103c8t6 72MHZ 在规定时间内有应答
+		{
+		
+			I2C_Stop();
+			return 0 ;
+		}
+	}
+	I2C_Stop();
+	return dat;
+}
+
+#ifdef hardI2C
 u8 I2C_Search_slaveadr(u8 dat){
 	u8 addr=0;
 	u8 t=0;
@@ -60,10 +226,11 @@ u8 I2C_Search_slaveadr(u8 dat){
 
 
 
-	
+
 void I2C_WriteByte(uint8_t slave_addr,uint8_t addr,uint8_t data)
 {
-	while(I2C_GetFlagStatus(I2C1, I2C_FLAG_BUSY));
+
+	//while(I2C_GetFlagStatus(I2C1, I2C_FLAG_BUSY));
 	
 	I2C_GenerateSTART(I2C1, ENABLE);//开启I2C1
 	while(!I2C_CheckEvent(I2C1, I2C_EVENT_MASTER_MODE_SELECT));/*EV5,主模式*/
@@ -98,7 +265,6 @@ void I2C_ReadByte(uint8_t slave_addr,uint8_t addr,uint8_t *data,uint8_t numByte)
 	while (!I2C_CheckEvent(I2C1, I2C_EVENT_MASTER_BYTE_TRANSMITTED));
 	
 		//第二次产生起始信号
-//	while(I2C_GetFlagStatus(I2C1, I2C_FLAG_BUSY));
 	I2C_GenerateSTART(I2C1, ENABLE);//开启I2C1
 	while(!I2C_CheckEvent(I2C1, I2C_EVENT_MASTER_MODE_SELECT));/*EV5,主模式*/
 
@@ -126,10 +292,10 @@ void I2C_ReadByte(uint8_t slave_addr,uint8_t addr,uint8_t *data,uint8_t numByte)
 		}
 				while(I2C_GetFlagStatus(I2C1,I2C_FLAG_RXNE) == RESET);
 				*(data++)=I2C_ReceiveData(I2C1);//读取数据=I2C_ReceiveData(I2C1);//读取数据
-	
 
 		}
 		I2C_AcknowledgeConfig(I2C1,ENABLE);
+	//	I2C_GenerateSTOP(I2C1, ENABLE);//关闭I2C1总线	
 //		for(int i=0;i<data_index;i++)
 //		{
 //			printf("data==%x\r\n",data[i]);
@@ -141,4 +307,4 @@ void I2C_ReadByte(uint8_t slave_addr,uint8_t addr,uint8_t *data,uint8_t numByte)
 		
 	
 }
-
+#endif

@@ -171,6 +171,7 @@ void OLED_Refresh(void)
 			OLED_WR_Byte(OLED_GRAM[n][i],OLED_DATA);
 //			I2C_WaitAck();
 		}
+		delay_1us(100);
 //		I2C_Stop();
   }
 }
@@ -483,7 +484,6 @@ void OLED_Init(void)
 // 	GPIO_Init(GPIOB, &GPIO_InitStructure);	  //≥ı ºªØPA0,1
 // 	GPIO_SetBits(GPIOB,GPIO_Pin_6|GPIO_Pin_7);
 	//	I2C_Configuration( );
-   delay_1ms( 200 );
 	
 	OLED_WR_Byte(0xAE,OLED_CMD);//--turn off oled panel
 	OLED_WR_Byte(0x00,OLED_CMD);//---set low column address

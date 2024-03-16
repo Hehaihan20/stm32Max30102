@@ -21,13 +21,20 @@ Target DLL:      CMSIS_AGDI.dll V1.31.18.0
 Dialog DLL:      TCM.DLL V1.36.2.0
  
 <h2>Project:</h2>
-E:\CodeSpace\IC\stm32\04_Template_F103C8T6_i2c1_max30102\User\STM32Template_F103C8T6.uvprojx
-Project File Date:  01/27/2024
+E:\CodeSpace\IC\stm32\04_Template_F103C8T6_swi2c_max301\User\STM32Template_F103C8T6.uvprojx
+Project File Date:  03/16/2024
 
 <h2>Output:</h2>
 *** Using Compiler 'V5.06 update 6 (build 750)', folder: 'D:\software\coder\ic\keil\keil-arm\core\ARM\ARMCC\Bin'
 Rebuild target 'Target 1'
 assembling startup_stm32f10x_hd.s...
+compiling Systick.c...
+Systick.c(93): warning:  #1-D: last line of file ends without a newline
+  }
+Systick.c: 1 warning, 0 errors
+compiling system_stm32f10x.c...
+compiling misc.c...
+compiling stm32f10x_it.c...
 compiling Led.c...
 ..\Hardware\Led\Led.h(8): warning:  #1295-D: Deprecated declaration LED_GPIO_INIT - give arg types
   void LED_GPIO_INIT();
@@ -36,14 +43,20 @@ compiling Led.c...
 ..\Hardware\Led\Led.c(17): warning:  #1-D: last line of file ends without a newline
   }
 ..\Hardware\Led\Led.c: 3 warnings, 0 errors
-compiling misc.c...
-compiling stm32f10x_it.c...
 compiling main.c...
-..\Drivers\I2C\I2C.h(31): warning:  #1295-D: Deprecated declaration I2C_Configuration - give arg types
-  void I2C_Configuration();
-..\Drivers\I2C\I2C.h(35): warning:  #1-D: last line of file ends without a newline
+..\Hardware\Timer\Timer1.h(10): warning:  #1295-D: Deprecated declaration TIMER1_GPIO_INIT - give arg types
+  void TIMER1_GPIO_INIT();
+..\Hardware\Timer\Timer1.h(11): warning:  #1295-D: Deprecated declaration TIMER1_PARAM_CONFIG - give arg types
+  void TIMER1_PARAM_CONFIG();
+..\Hardware\Timer\Timer1.h(13): warning:  #1-D: last line of file ends without a newline
   #endif 
-..\Hardware\MAX30102\MAX30102.h(65): warning:  #1-D: last line of file ends without a newline
+..\Drivers\I2C\I2C.h(42): warning:  #1295-D: Deprecated declaration I2C_Configuration - give arg types
+  void I2C_Configuration();
+..\Drivers\I2C\I2C.h(46): warning:  #1-D: last line of file ends without a newline
+  #endif 
+..\Hardware\MAX30102\MAX30102.h(65): warning:  #1295-D: Deprecated declaration MAX30102_GetHigh - give arg types
+  uint16_t MAX30102_GetHigh();
+..\Hardware\MAX30102\MAX30102.h(68): warning:  #1-D: last line of file ends without a newline
   #endif
 ..\Hardware\oled\oled.h(37): warning:  #1-D: last line of file ends without a newline
   #endif
@@ -53,32 +66,99 @@ compiling main.c...
   void USART_PARAM_CONFIG();
 ..\Drivers\Usart\Usart1.h(13): warning:  #1-D: last line of file ends without a newline
   #endif 
-main.c(49): warning:  #177-D: variable "t"  was declared but never referenced
-  	u8 t=123;
-main.c: 8 warnings, 0 errors
-compiling Systick.c...
-Systick.c(93): warning:  #1-D: last line of file ends without a newline
-  }
-Systick.c: 1 warning, 0 errors
-compiling system_stm32f10x.c...
-compiling stm32f10x_rcc.c...
-compiling stm32f10x_gpio.c...
+main.c(25): warning:  #177-D: variable "HR_tmp"  was declared but never referenced
+  	u8 HR_tmp=0;
+main.c(26): warning:  #177-D: variable "r_tmp"  was declared but never referenced
+  	u8 r_tmp=0;
+main.c(27): warning:  #177-D: variable "cnt"  was declared but never referenced
+  	u16 cnt=0;
+main.c: 14 warnings, 0 errors
 compiling stm32f10x_i2c.c...
-compiling stm32f10x_usart.c...
+compiling stm32f10x_gpio.c...
 compiling MAX30102.c...
-..\Drivers\I2C\I2C.h(31): warning:  #1295-D: Deprecated declaration I2C_Configuration - give arg types
+..\Drivers\I2C\I2C.h(42): warning:  #1295-D: Deprecated declaration I2C_Configuration - give arg types
   void I2C_Configuration();
-..\Drivers\I2C\I2C.h(35): warning:  #1-D: last line of file ends without a newline
+..\Drivers\I2C\I2C.h(46): warning:  #1-D: last line of file ends without a newline
   #endif 
-..\Hardware\MAX30102\MAX30102.h(65): warning:  #1-D: last line of file ends without a newline
+..\Hardware\MAX30102\MAX30102.h(65): warning:  #1295-D: Deprecated declaration MAX30102_GetHigh - give arg types
+  uint16_t MAX30102_GetHigh();
+..\Hardware\MAX30102\MAX30102.h(68): warning:  #1-D: last line of file ends without a newline
   #endif
-..\Hardware\MAX30102\MAX30102.c(203): warning:  #177-D: variable "un_temp"  was declared but never referenced
+..\Hardware\MAX30102\MAX30102.c(169): warning:  #177-D: variable "thrdat1"  was declared but never referenced
+  				uint16_t thrdat1;
+..\Hardware\MAX30102\MAX30102.c(170): warning:  #177-D: variable "thrdat2"  was declared but never referenced
+  				uint16_t thrdat2;
+..\Hardware\MAX30102\MAX30102.c(197): warning:  #177-D: variable "Heart_Rate"  was declared but never referenced
+  		uint16_t Heart_Rate;
+..\Hardware\MAX30102\MAX30102.c(229): warning:  #177-D: variable "un_temp"  was declared but never referenced
   	uint16_t un_temp;
-..\Hardware\MAX30102\MAX30102.c(21): warning:  #550-D: variable "Max_index"  was set but never used
+..\Hardware\MAX30102\MAX30102.c(22): warning:  #550-D: variable "Max_index"  was set but never used
   static u8 Max_index[2];
-..\Hardware\MAX30102\MAX30102.c(25): warning:  #177-D: variable "cont"  was declared but never referenced
+..\Hardware\MAX30102\MAX30102.c(26): warning:  #177-D: variable "cont"  was declared but never referenced
   static u8 cont;
-..\Hardware\MAX30102\MAX30102.c: 6 warnings, 0 errors
+..\Hardware\MAX30102\MAX30102.c: 10 warnings, 0 errors
+compiling stm32f10x_usart.c...
+compiling stm32f10x_rcc.c...
+compiling blood.c...
+..\Drivers\I2C\I2C.h(42): warning:  #1295-D: Deprecated declaration I2C_Configuration - give arg types
+  void I2C_Configuration();
+..\Drivers\I2C\I2C.h(46): warning:  #1-D: last line of file ends without a newline
+  #endif 
+..\Hardware\MAX30102\MAX30102.h(65): warning:  #1295-D: Deprecated declaration MAX30102_GetHigh - give arg types
+  uint16_t MAX30102_GetHigh();
+..\Hardware\MAX30102\MAX30102.h(68): warning:  #1-D: last line of file ends without a newline
+  #endif
+..\Drivers\Usart\Usart1.h(10): warning:  #1295-D: Deprecated declaration USART_GPIO_INIT - give arg types
+  void USART_GPIO_INIT();
+..\Drivers\Usart\Usart1.h(11): warning:  #1295-D: Deprecated declaration USART_PARAM_CONFIG - give arg types
+  void USART_PARAM_CONFIG();
+..\Drivers\Usart\Usart1.h(13): warning:  #1-D: last line of file ends without a newline
+  #endif 
+..\Hardware\oled\oled.h(37): warning:  #1-D: last line of file ends without a newline
+  #endif
+..\Hardware\Blood\blood.c: 8 warnings, 0 errors
+compiling algorithm.c...
+..\Drivers\I2C\I2C.h(42): warning:  #1295-D: Deprecated declaration I2C_Configuration - give arg types
+  void I2C_Configuration();
+..\Drivers\I2C\I2C.h(46): warning:  #1-D: last line of file ends without a newline
+  #endif 
+..\Hardware\MAX30102\MAX30102.h(65): warning:  #1295-D: Deprecated declaration MAX30102_GetHigh - give arg types
+  uint16_t MAX30102_GetHigh();
+..\Hardware\MAX30102\MAX30102.h(68): warning:  #1-D: last line of file ends without a newline
+  #endif
+..\Hardware\Algorithm\algorithm.c: 4 warnings, 0 errors
+compiling Timer1.c...
+..\Hardware\Timer\Timer1.h(10): warning:  #1295-D: Deprecated declaration TIMER1_GPIO_INIT - give arg types
+  void TIMER1_GPIO_INIT();
+..\Hardware\Timer\Timer1.h(11): warning:  #1295-D: Deprecated declaration TIMER1_PARAM_CONFIG - give arg types
+  void TIMER1_PARAM_CONFIG();
+..\Hardware\Timer\Timer1.h(13): warning:  #1-D: last line of file ends without a newline
+  #endif 
+..\Drivers\I2C\I2C.h(42): warning:  #1295-D: Deprecated declaration I2C_Configuration - give arg types
+  void I2C_Configuration();
+..\Drivers\I2C\I2C.h(46): warning:  #1-D: last line of file ends without a newline
+  #endif 
+..\Hardware\MAX30102\MAX30102.h(65): warning:  #1295-D: Deprecated declaration MAX30102_GetHigh - give arg types
+  uint16_t MAX30102_GetHigh();
+..\Hardware\MAX30102\MAX30102.h(68): warning:  #1-D: last line of file ends without a newline
+  #endif
+..\Drivers\Usart\Usart1.h(10): warning:  #1295-D: Deprecated declaration USART_GPIO_INIT - give arg types
+  void USART_GPIO_INIT();
+..\Drivers\Usart\Usart1.h(11): warning:  #1295-D: Deprecated declaration USART_PARAM_CONFIG - give arg types
+  void USART_PARAM_CONFIG();
+..\Drivers\Usart\Usart1.h(13): warning:  #1-D: last line of file ends without a newline
+  #endif 
+..\Hardware\oled\oled.h(37): warning:  #1-D: last line of file ends without a newline
+  #endif
+..\Hardware\Timer\Timer1.c: 11 warnings, 0 errors
+compiling oled.c...
+..\Drivers\I2C\I2C.h(42): warning:  #1295-D: Deprecated declaration I2C_Configuration - give arg types
+  void I2C_Configuration();
+..\Drivers\I2C\I2C.h(46): warning:  #1-D: last line of file ends without a newline
+  #endif 
+..\Hardware\oled\oled.h(37): warning:  #1-D: last line of file ends without a newline
+  #endif
+..\Hardware\oled\oled.c: 3 warnings, 0 errors
 compiling Usart1.c...
 ..\Drivers\Usart\Usart1.h(10): warning:  #1295-D: Deprecated declaration USART_GPIO_INIT - give arg types
   void USART_GPIO_INIT();
@@ -88,25 +168,20 @@ compiling Usart1.c...
   #endif 
 ..\Drivers\Usart\Usart1.c: 3 warnings, 0 errors
 compiling I2C.c...
-..\Drivers\I2C\I2C.h(31): warning:  #1295-D: Deprecated declaration I2C_Configuration - give arg types
+..\Drivers\I2C\I2C.h(42): warning:  #1295-D: Deprecated declaration I2C_Configuration - give arg types
   void I2C_Configuration();
-..\Drivers\I2C\I2C.h(35): warning:  #1-D: last line of file ends without a newline
+..\Drivers\I2C\I2C.h(46): warning:  #1-D: last line of file ends without a newline
   #endif 
-..\Drivers\I2C\I2C.c(41): warning:  #177-D: variable "addr"  was declared but never referenced
+..\Drivers\I2C\I2C.c(91): warning:  #177-D: variable "stat"  was declared but never referenced
+  	uint8_t stat;
+..\Drivers\I2C\I2C.c(186): warning:  #177-D: variable "addr"  was declared but never referenced
   	u8 addr=0;
-..\Drivers\I2C\I2C.c: 3 warnings, 0 errors
-compiling oled.c...
-..\Drivers\I2C\I2C.h(31): warning:  #1295-D: Deprecated declaration I2C_Configuration - give arg types
-  void I2C_Configuration();
-..\Drivers\I2C\I2C.h(35): warning:  #1-D: last line of file ends without a newline
-  #endif 
-..\Hardware\oled\oled.h(37): warning:  #1-D: last line of file ends without a newline
-  #endif
-..\Hardware\oled\oled.c: 3 warnings, 0 errors
+..\Drivers\I2C\I2C.c: 4 warnings, 0 errors
+compiling stm32f10x_tim.c...
 linking...
-Program Size: Code=9152 RO-data=8032 RW-data=72 ZI-data=2176  
+Program Size: Code=11028 RO-data=8844 RW-data=92 ZI-data=14724  
 FromELF: creating hex file...
-".\Objects\STM32Template_F103C8T6.axf" - 0 Error(s), 27 Warning(s).
+".\Objects\STM32Template_F103C8T6.axf" - 0 Error(s), 61 Warning(s).
 
 <h2>Software Packages used:</h2>
 
@@ -129,7 +204,7 @@ Package Vendor: Keil
 <h2>Collection of Component Files used:</h2>
 
    * Component: ARM::CMSIS:CORE:5.2.0
-Build Time Elapsed:  00:00:00
+Build Time Elapsed:  00:00:01
 </pre>
 </body>
 </html>

@@ -21,7 +21,7 @@
 #include "stm32f10x.h"
 
 #include "I2C.h"
-
+struct compx EE(struct compx a,struct compx b);
 /*R=((ir_max+ir_min)(red_max-red_min))/((red_max+red_min)(ir_max-ir_min));
 SpO2= ((-45.060)RR + 30.354*R + 94.845).*/
 //1=((-9)RR + 6*R
@@ -62,4 +62,7 @@ void MAX30102_ReadFifo(uint16_t *pdata);
 uint16_t MAX30102_GetMax(uint16_t* num,uint16_t size);
 uint16_t MAX30102_GetMin(uint16_t* num,uint16_t size);
 float MAX30102_GetR(uint16_t *red,uint16_t *ir,uint16_t size );
+uint16_t MAX30102_GetHigh();
+
+
 #endif

@@ -32,3 +32,8 @@
 .\objects\algorithm.o: ..\Firmware\STM32F10x_StdPeriph_Driver\inc\stm32f10x_usart.h
 .\objects\algorithm.o: ..\Firmware\STM32F10x_StdPeriph_Driver\inc\stm32f10x_wwdg.h
 .\objects\algorithm.o: ..\Firmware\STM32F10x_StdPeriph_Driver\inc\misc.h
+.\objects\algorithm.o: ..\Hardware\MAX30102\MAX30102.h
+.\objects\algorithm.o: ..\Drivers\I2C\I2C.h
+.\objects\algorithm.o: ..\User\stm32f10x_it.h
+.\objects\algorithm.o: D:\software\coder\ic\keil\keil-arm\core\ARM\ARMCC\Bin\..\include\stdio.h
+.\objects\algorithm.o: ..\User\Systick.h

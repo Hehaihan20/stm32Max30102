@@ -1,8 +1,8 @@
 #include "blood.h"
 #include "Usart1.h"
-
+uint8_t cnt=0;
 uint16_t g_fft_index = 0;         	 	//fft输入输出下标
-
+float	tmp_spo2=0;
 struct compx s1[FFT_N+16];           	//FFT输入和输出：从S[1]开始存放，根据大小自己定义
 struct compx s2[FFT_N+16];           	//FFT输入和输出：从S[1]开始存放，根据大小自己定义
 
@@ -20,24 +20,27 @@ BloodData g_blooddata = {0};					//血液数据存储
 /*funcation start ------------------------------------------------------------*/
 //血液检测信息更新
 void blood_data_update(void)
-{
+{		//
 	//标志位被使能时 读取FIFO
 	g_fft_index=0;
 	while(g_fft_index < FFT_N)
 	{
-		while(MAX30102_INTPin_Read()==0)
+		
+		uint16_t data[2];
+		//while(MAX30102_INTPin_Read()==0)
 		{
 			//读取FIFO
-			max30102_read_fifo();  //read from MAX30102 FIFO2
+			MAX30102_ReadFifo(data);  //read from MAX30102 FIFO2
 			//将数据写入fft输入并清除输出
 			if(g_fft_index < FFT_N)
 			{
 				//将数据写入fft输入并清除输出
-				s1[g_fft_index].real = fifo_red;
+				s1[g_fft_index].real = data[0];
 				s1[g_fft_index].imag= 0;
-				s2[g_fft_index].real = fifo_ir;
+				s2[g_fft_index].real = data[1];
 				s2[g_fft_index].imag= 0;
 				g_fft_index++;
+			//	printf("data[1]%d\r\n",data[1]);
 			}
 		}
 	}
@@ -152,15 +155,32 @@ void blood_Loop(void)
 {
 	//血液信息获取
 	blood_data_update();
+
 	//血液信息转换
 	blood_data_translate();
 	//显示血液状态信息
-	g_blooddata.SpO2 = (g_blooddata.SpO2 > 99.99) ? 99.99:g_blooddata.SpO2;
-	//UsartPrintf(USART_DEBUG,"指令心率%3d",g_blooddata.heart);
 
-//	OLED_ShowNum(2,2,g_blooddata.heart,3);
-//	//UsartPrintf(USART_DEBUG,"指令血氧%0.2f",g_blooddata.SpO2);
-//	OLED_ShowNum(3,2,g_blooddata.SpO2,3);
+	g_blooddata.SpO2 = (g_blooddata.SpO2 > 99.99) ? 99.99:g_blooddata.SpO2;
 	
+	
+	
+	OLED_ShowString(0,0,"HR:",16,1);	
+	OLED_ShowString(0,16,"SP02:",16,1);	
+	//UsartPrintf(USART_DEBUG,"指令心率%3d",g_blooddata.heart);
+	OLED_ShowNum(48,0,g_blooddata.heart,2,16,1);
+	//	OLED_ShowString(48,0,"SP:",16,1);
+	OLED_ShowNum(48,16,g_blooddata.SpO2,2,16,1);
+	
+	OLED_ShowNum(0,48,cnt++,2,16,1);
+	OLED_Refresh();
+	printf("blood_Loop\r\n");
+	//OLED_ShowNum(2,2,g_blooddata.heart,3);
+//	//UsartPrintf(USART_DEBUG,"指令血氧%0.2f",g_blooddata.SpO2);
+	//OLED_ShowNum(3,2,g_blooddata.SpO2,3);
+		
+	//printf("g_blooddata=%f\r\n",g_blooddata.SpO2);
+	//printf("p_red=%d\r\n",g_blooddata.heart);
+		
+
 }
 

@@ -338,7 +338,7 @@
               <MiscControls></MiscControls>
               <Define>USE_STDPERIPH_DRIVER</Define>
               <Undefine></Undefine>
-              <IncludePath>..\User;..\Firmware\STM32F10x_StdPeriph_Driver\inc;..\Drivers\Usart;..\Hardware\Led;..\Hardware\oled;..\Drivers\I2C;..\Hardware\MAX30102;..\Hardware\Algorithm;..\Hardware\Blood</IncludePath>
+              <IncludePath>..\User;..\Firmware\STM32F10x_StdPeriph_Driver\inc;..\Drivers\Usart;..\Hardware\Led;..\Hardware\oled;..\Drivers\I2C;..\Hardware\MAX30102;..\Hardware\Algorithm;..\Hardware\Blood;..\Hardware\Timer</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -491,6 +491,31 @@
               <FileName>oled.h</FileName>
               <FileType>5</FileType>
               <FilePath>..\Hardware\oled\oled.h</FilePath>
+            </File>
+            <File>
+              <FileName>blood.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Hardware\Blood\blood.c</FilePath>
+            </File>
+            <File>
+              <FileName>algorithm.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Hardware\Algorithm\algorithm.c</FilePath>
+            </File>
+            <File>
+              <FileName>Timer1.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Hardware\Timer\Timer1.c</FilePath>
+            </File>
+            <File>
+              <FileName>Timer1.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\Hardware\Timer\Timer1.h</FilePath>
+            </File>
+            <File>
+              <FileName>stm32f10x_tim.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Firmware\STM32F10x_StdPeriph_Driver\src\stm32f10x_tim.c</FilePath>
             </File>
           </Files>
         </Group>

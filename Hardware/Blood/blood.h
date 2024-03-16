@@ -5,6 +5,7 @@
 #include "algorithm.h"
 #include "math.h"
 #include "Usart1.h"
+#include	"oled.h"
 typedef enum
 {
 	BLD_NORMAL,		//Õý³£
